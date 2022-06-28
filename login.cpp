@@ -8,6 +8,7 @@
 #include <QString>
 #include <QMessageBox>
 #include <QPainter>
+#include "mainwindow.h"
 
 Login::Login(QWidget *parent)
     : QMainWindow(parent)
@@ -79,11 +80,17 @@ Login::Login(QWidget *parent)
 
     /*******************功能配置*************************/
 
+    MainWindow *vediowindow = new MainWindow();
+
+
     connect(btn_Login,&QPushButton::clicked,[=](){
-        qDebug()<<"点击了登录";
+        //qDebug()<<"点击了登录";
         if(strcmp(usernameText->text().toUtf8().data(),username)==0 && strcmp(userpwdText->text().toUtf8().data(),userpwd)==0)
         {
-            qDebug()<<"登录成功";
+            //qDebug()<<"登录成功";
+            this->hide();
+            vediowindow->show();
+
         }
         else if(usernameText->text()=="" | userpwdText->text()== "")
         {
