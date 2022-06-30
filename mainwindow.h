@@ -6,6 +6,7 @@
 #include <QMap>
 #include <QListWidgetItem>
 #include <QCameraImageCapture>
+#include <QTimer>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -24,6 +25,7 @@ private slots:
     void on_pushButton_showAll_clicked();
     void on_pushButton_capture_clicked();
     void slot_camera_captured(int fd,const QImage &testImage);
+    void slot_timer_capture();
     void on_btn_QCode_clicked();
 
 private:
@@ -33,5 +35,7 @@ private:
     int cap_number = 0;
 
     QCameraImageCapture *QCodeimageCapture = NULL;
+
+    QTimer *timerCapture;
 };
 #endif // MAINWINDOW_H

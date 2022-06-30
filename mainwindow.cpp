@@ -7,6 +7,7 @@
 #include <QCameraImageCapture>
 #include "JQQRCodeReader.h"
 #include <QMessageBox>
+#include <QTimer>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -21,12 +22,18 @@ MainWindow::MainWindow(QWidget *parent)
     this->setWindowTitle("EyeOftheSky");
 
 
+    ui->lblImage->setScaledContents(true);
+
     /*******************功能配置*************************/
 
+    //菜单栏功能实现
     //连接菜单栏的关闭按钮
     connect(ui->actionclose,&QAction::triggered,[=](){
         this->close();
     });
+
+    connect(ui->actionqcode,&QAction::triggered,ui->btn_QCode,&QPushButton::clicked);
+    connect(ui->actioncapture,&QAction::triggered,ui->pushButton_capture,&QPushButton::clicked);
 
     //视频输出
     QCamera *camera = NULL;
@@ -45,6 +52,12 @@ MainWindow::MainWindow(QWidget *parent)
     QCodeimageCapture = new QCameraImageCapture(map_camera.first());
     //将图片拍摄与二维码读取槽函数连接
     connect(QCodeimageCapture,&QCameraImageCapture::imageCaptured,this,&MainWindow::slot_camera_captured);
+
+    //设置定时器自动捕获
+    timerCapture = new QTimer(this);
+    connect(timerCapture,&QTimer::timeout,this,&MainWindow::slot_timer_capture);
+
+
 }
 
 //摄像头选中
@@ -92,10 +105,34 @@ void MainWindow::slot_camera_captured(int fd,const QImage &testImage)
     JQQRCodeReader qrCodeReader;
     //输出结果
     QString rst = qrCodeReader.decodeImage(testImage, JQQRCodeReader::DecodeQrCodeType );
-    QMessageBox::information(this,"识别结果",rst);
+
+    if(!rst.isEmpty())
+    {
+        QPixmap pix;
+        pix = QPixmap::fromImage(testImage);
+
+        ui->lblImage->setPixmap(pix);
+        ui->lblText->setText(rst);
+    }
+
 }
-//点击按钮，开始拍摄二维码
+//点击按钮，启动定时器 开始识别二维码
 void MainWindow::on_btn_QCode_clicked()
+{
+    if(ui->btn_QCode->text()=="扫描二维码")
+    {
+        ui->btn_QCode->setText("停止扫描");
+        ui->actionqcode->setText("停止扫描");
+        timerCapture->start(500);
+    }
+    else
+    {
+        ui->btn_QCode->setText("扫描二维码");
+        ui->actionqcode->setText("扫描二维码");
+        timerCapture->stop();
+    }
+}
+void MainWindow::slot_timer_capture()
 {
     //创建相机对象，并拍摄
     QCamera *camera = map_camera.first();
@@ -109,6 +146,7 @@ void MainWindow::on_btn_QCode_clicked()
     //on shutter button released
     camera->unlock();
 }
+
 MainWindow::~MainWindow()
 {
     delete ui;
