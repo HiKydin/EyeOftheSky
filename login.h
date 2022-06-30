@@ -1,24 +1,20 @@
 #ifndef LOGIN_H
 #define LOGIN_H
 
-#include <QMainWindow>
+#include <QWidget>
 
-QT_BEGIN_NAMESPACE
-namespace Ui { class Login; }
-QT_END_NAMESPACE
-
-class Login : public QMainWindow
+class login : public QWidget
 {
     Q_OBJECT
 
 public:
-    Login(QWidget *parent = nullptr);
-    ~Login();
-    void paintEvent(QPaintEvent *);
+    login(QWidget *parent = 0);
+    ~login();
+    void paintEvent(QPaintEvent *);//重写绘图事件
 
 private:
-    Ui::Login *ui;
-    const char username[10] = "admin";
-    const char userpwd[10] = "admin";
+    const char username[10] = "admin";//用户名
+    const char userpwd[10] = "admin";//密码
 };
+
 #endif // LOGIN_H

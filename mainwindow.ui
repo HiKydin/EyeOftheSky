@@ -38,9 +38,16 @@
         </widget>
        </item>
        <item>
+        <widget class="QPushButton" name="btn_QCode">
+         <property name="text">
+          <string>扫描二维码</string>
+         </property>
+        </widget>
+       </item>
+       <item>
         <widget class="QPushButton" name="pushButton_capture">
          <property name="text">
-          <string>拍照</string>
+          <string>快照</string>
          </property>
         </widget>
        </item>
@@ -53,7 +60,7 @@
           </size>
          </property>
          <property name="text">
-          <string>全部显示</string>
+          <string>排列</string>
          </property>
         </widget>
        </item>
@@ -101,12 +108,30 @@
     </property>
     <addaction name="actionclose"/>
    </widget>
+   <widget class="QMenu" name="menu_2">
+    <property name="title">
+     <string>功能</string>
+    </property>
+    <addaction name="actionqcode"/>
+    <addaction name="actioncapture"/>
+   </widget>
    <addaction name="menu"/>
+   <addaction name="menu_2"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionclose">
    <property name="text">
     <string>关闭</string>
+   </property>
+  </action>
+  <action name="actionqcode">
+   <property name="text">
+    <string>扫描二维码</string>
+   </property>
+  </action>
+  <action name="actioncapture">
+   <property name="text">
+    <string>快照</string>
    </property>
   </action>
  </widget>

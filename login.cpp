@@ -1,7 +1,5 @@
 #include "login.h"
-#include "ui_login.h"
 #include <QPushButton>
-#include <QMenuBar>
 #include <QLineEdit>
 #include <QLabel>
 #include <QDebug>
@@ -10,12 +8,9 @@
 #include <QPainter>
 #include "mainwindow.h"
 
-Login::Login(QWidget *parent)
-    : QMainWindow(parent)
-    , ui(new Ui::Login)
+login::login(QWidget *parent)
+    : QWidget(parent)
 {
-    ui->setupUi(this);
-
     /*******************界面配置*************************/
 
     //登录界面配置
@@ -34,18 +29,6 @@ Login::Login(QWidget *parent)
     btn_Login->setFixedSize(100,50);
     btn_Login->move((this->width()/2),this->height()/2+100);
 
-    //添加菜单栏
-    QMenuBar *menubar = new QMenuBar();
-    setMenuBar(menubar);
-    //创建菜单
-    QMenu *fileMenu = menubar->addMenu("编辑");
-    //创建菜单项
-    QAction *menuclose = fileMenu->addAction("关闭");
-
-    //实现点击关闭
-    connect(menuclose,&QAction::triggered,[=](){
-        this->close();
-    });
 
     //创建文本框
     QLineEdit *usernameText = new QLineEdit(this);
@@ -63,6 +46,10 @@ Login::Login(QWidget *parent)
 
     usernamelbl->move(100,200);
     userpwdlbl->move(100,250);
+
+    //水平垂直居中
+    usernamelbl->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+    userpwdlbl->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
     //鼠标穿透事件
     usernamelbl->setAttribute(Qt::WA_TransparentForMouseEvents);
     userpwdlbl->setAttribute(Qt::WA_TransparentForMouseEvents);
@@ -90,9 +77,8 @@ Login::Login(QWidget *parent)
             //qDebug()<<"登录成功";
             this->hide();
             vediowindow->show();
-
         }
-        else if(usernameText->text()=="" | userpwdText->text()== "")
+        else if(usernameText->text()=="" || userpwdText->text()== "")
         {
             QMessageBox::critical(this,"error","请输入用户名和密码");
         }
@@ -105,8 +91,7 @@ Login::Login(QWidget *parent)
     });
 
 }
-
-void Login::paintEvent(QPaintEvent *)
+void login::paintEvent(QPaintEvent *)
 {
     //绘制主图
     QPainter painter(this);
@@ -123,9 +108,7 @@ void Login::paintEvent(QPaintEvent *)
     painter.drawPixmap(0,15,pix);
 
 }
-
-Login::~Login()
+login::~login()
 {
-    delete ui;
-}
 
+}
