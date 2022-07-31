@@ -18,6 +18,7 @@ login::login(QWidget *parent)
     this->setFixedSize(500,500);
     this->setWindowTitle("EyeOfTheSky    登录界面");
 
+    //
     //添加按钮
     QPushButton *btn_Signin = new QPushButton("注册");
     btn_Signin->setParent(this);
@@ -40,9 +41,9 @@ login::login(QWidget *parent)
 
     //创建文本
     QLabel *usernamelbl = new QLabel(this);
-    usernamelbl->setText("用户名：");
+    usernamelbl->setText("账号:");
     QLabel *userpwdlbl = new QLabel(this);
-    userpwdlbl->setText("密码：");
+    userpwdlbl->setText("密码:");
 
     usernamelbl->move(100,200);
     userpwdlbl->move(100,250);
@@ -68,6 +69,7 @@ login::login(QWidget *parent)
     /*******************功能配置*************************/
 
     MainWindow *vediowindow = new MainWindow();
+    vediowindow->resize(1800,1000);
 
 
     connect(btn_Login,&QPushButton::clicked,[=](){
